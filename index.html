@@ -1,159 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendio – Smart Attendance Tracker App</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Attendio — Smart Attendance Tracker</title>
+<meta name="description" content="Attendio — simple, offline-ready attendance tracker with one-tap marking, auto salary calculator and monthly reports." />
 
-    <style>
-        body {
-            margin: 0;
-            font-family: "Inter", Arial, sans-serif;
-            background: #ffffff;
-            color: #222;
-        }
+<style>
+  :root{
+    --accent-1: #5b21b6;    /* deep purple */
+    --accent-2: #7c3aed;    /* gradient mid */
+    --accent-3: #60a5fa;    /* blue for buttons */
+    --muted: #6b7280;
+    --card: #ffffff;
+    --bg: #0f172a;
+    --glass: rgba(255,255,255,0.06);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;background:linear-gradient(180deg,#07090f 0%, #071033 55%, #071225 100%);color:#e6eef8; -webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  /* Header */
+  .topbar{
+    position:fixed;left:0;right:0;top:0;z-index:60;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 22px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    backdrop-filter: blur(6px);
+    border-bottom:1px solid rgba(255,255,255,0.03);
+  }
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{
+    width:44px;height:44px;border-radius:10px;
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:18px;box-shadow:0 6px 30px rgba(99,102,241,0.12)
+  }
+  .brand h3{margin:0;font-size:16px;line-height:1}
+  nav{display:flex;gap:18px;align-items:center}
+  nav a{font-size:15px;color:rgba(230,238,248,0.9);padding:6px 10px;border-radius:8px}
+  nav a:hover{background:rgba(255,255,255,0.03)}
+  .cta{background:linear-gradient(90deg,var(--accent-3),#3b82f6);padding:10px 14px;border-radius:10px;color:#042a52;font-weight:700}
+  /* Hero */
+  .hero{
+    padding:120px 24px 40px;
+    max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:36px;align-items:center;
+  }
+  .hero-left h1{font-size:44px;margin:0 0 10px;letter-spacing:-0.5px}
+  .hero-left p{color:var(--muted);font-size:18px;max-width:640px;margin:0 0 18px}
+  .actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .btn-primary{background:linear-gradient(90deg,var(--accent-1),var(--accent-2));padding:14px 20px;border-radius:12px;color:white;font-weight:700;box-shadow:0 10px 30px rgba(124,58,237,0.18);border:0}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:12px 16px;border-radius:10px;color:var(--muted)}
+  .small-note{font-size:13px;color:rgba(255,255,255,0.6)}
+  /* Hero right card */
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 10px 40px rgba(2,6,23,0.6);
+  }
+  .badge{display:inline-block;padding:6px 10px;background:rgba(255,255,255,0.04);border-radius:10px;font-weight:700;color:#dbeafe}
+  .stat{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:16px}
+  .stat div{font-size:18px}
+  /* features */
+  .features{max-width:1200px;margin:36px auto;padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .feature{background:linear-gradient(180deg, rgba(255,255,255,0.016), rgba(255,255,255,0.01));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+  .feature h4{margin:8px 0 6px;color: #e6eaff}
+  .feature p{margin:0;color:var(--muted)}
+  /* screenshots carousel */
+  .carousel-wrap{max-width:1200px;margin:30px auto;padding:20px;display:flex;gap:18px;align-items:center;justify-content:center;flex-direction:column}
+  .carousel{display:flex;gap:14px;align-items:center;justify-content:center}
+  .carousel img{width:250px;border-radius:18px;box-shadow:0 18px 40px rgba(2,6,23,0.5);transform-origin:center;transition:transform .28s}
+  .carousel img.center{transform:translateY(-6px) scale(1.06)}
+  .carousel-controls{display:flex;gap:12px;margin-top:12px}
+  .dot{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,0.12);cursor:pointer}
+  .dot.active{background:linear-gradient(90deg,var(--accent-1),var(--accent-2))}
+  /* contact and footer */
+  .contact{max-width:1000px;margin:48px auto;padding:20px;background:linear-gradient(180deg, rgba(124,58,237,0.06), rgba(96,165,250,0.02));border-radius:14px;display:flex;gap:20px;align-items:center;justify-content:space-between}
+  .contact .left{display:flex;gap:14px;align-items:center}
+  .avatar{width:72px;height:72px;border-radius:14px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700}
+  .contact .info h3{margin:0 0 6px}
+  .contact .info p{margin:0;color:var(--muted)}
+  .contact .links{display:flex;gap:12px}
+  .contact a{padding:10px 14px;border-radius:10px;background:rgba(0,0,0,0.25);color:#fff;font-weight:600}
+  footer{max-width:1200px;margin:40px auto 80px;padding:20px;text-align:center;color:var(--muted)}
+  /* responsive */
+  @media (max-width:920px){
+    .hero{grid-template-columns:1fr; padding-top:110px}
+    .carousel img{width:180px}
+  }
+  @media (max-width:520px){
+    .logo{width:40px;height:40px;font-size:16px}
+    .hero-left h1{font-size:30px}
+    .carousel img{width:150px}
+    nav{display:none}
+  }
 
-        /* HERO SECTION */
-        .hero {
-            text-align: center;
-            padding: 80px 20px 60px;
-            background: linear-gradient(135deg, #4f46e5, #6366f1, #818cf8);
-            color: white;
-        }
-
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .hero p {
-            font-size: 20px;
-            max-width: 700px;
-            margin: 0 auto 30px;
-            opacity: 0.9;
-        }
-
-        .download-btn {
-            background: white;
-            color: #4f46e5;
-            padding: 14px 28px;
-            font-size: 18px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.2s;
-            border: 2px solid white;
-        }
-
-        .download-btn:hover {
-            background: #f8f8ff;
-            transform: scale(1.05);
-        }
-
-        /* FEATURES SECTION */
-        .features {
-            max-width: 1100px;
-            margin: 60px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .feature-card {
-            background: #f9fafb;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
-
-        .feature-card h3 {
-            margin-bottom: 10px;
-            color: #4f46e5;
-        }
-
-        /* SCREENSHOTS */
-        .screenshots {
-            max-width: 1100px;
-            margin: 60px auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 0 20px;
-        }
-
-        .screenshots img {
-            width: 260px;
-            border-radius: 16px;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
-            transition: transform 0.2s;
-        }
-
-        .screenshots img:hover {
-            transform: scale(1.04);
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            margin-top: 50px;
-            color: #666;
-            font-size: 14px;
-        }
-    </style>
+  /* subtle entrance animations */
+  .fade-up{opacity:0;transform:translateY(10px);animation:fadeUp .7s forwards}
+  @keyframes fadeUp{to{opacity:1;transform:none}}
+</style>
 </head>
-
 <body>
 
-    <!-- HERO HEADER -->
-    <section class="hero">
-        <h1>Attendio</h1>
-        <p>The simplest and smartest attendance tracker.  
-           Easily record workdays, overtime, absences, and get monthly salary calculations automatically.</p>
+<!-- Top nav -->
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">A</div>
+    <div>
+      <h3 style="margin:0">Attendio</h3>
+      <div style="font-size:12px;color:var(--muted)">Attendance tracker</div>
+    </div>
+  </div>
 
-        <a class="download-btn"
-            href="https://play.google.com/store/apps/details?id=com.brownfish.attendio"
-            target="_blank">
-            Download on Google Play
-        </a>
-    </section>
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#screenshots">Screenshots</a>
+    <a href="#contact">Contact</a>
+    <a class="cta" href="https://play.google.com/store/apps/details?id=com.brownfish.attendio" target="_blank">Download</a>
+  </nav>
+</header>
 
-    <!-- FEATURES -->
-    <section class="features">
-        <div class="feature-card">
-            <h3>✔ One-Tap Attendance</h3>
-            <p>Mark present, absent, overtime, or half-day instantly with a single tap.</p>
-        </div>
-        <div class="feature-card">
-            <h3>✔ Auto Salary Calculator</h3>
-            <p>Automatically calculates your monthly salary based on attendance and work hours.</p>
-        </div>
-        <div class="feature-card">
-            <h3>✔ Monthly History</h3>
-            <p>See clean, organized summaries of your entire month’s work progress.</p>
-        </div>
-        <div class="feature-card">
-            <h3>✔ Offline Mode</h3>
-            <p>Use the app anytime, anywhere — no internet required to save your attendance.</p>
-        </div>
-    </section>
+<!-- HERO -->
+<main>
+  <section class="hero">
+    <div class="hero-left fade-up" style="animation-delay:0.05s">
+      <h1>Attendio — Simple, fast attendance tracking</h1>
+      <p>One-tap attendance, offline-ready, monthly salary estimates and clean monthly reports. Built for individuals and small teams who want no-nonsense attendance tracking.</p>
 
-    <!-- SCREENSHOTS -->
-    <section class="screenshots">
-        <img src="screenshot1.png" alt="Attendio Screenshot">
-        <img src="screenshot2.png" alt="Attendio Screenshot">
-        <img src="screenshot3.png" alt="Attendio Screenshot">
-        <img src="screenshot4.png" alt="Attendio Screenshot">
-    </section>
+      <div class="actions">
+        <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.brownfish.attendio" target="_blank">Get on Google Play</a>
+        <a class="btn-ghost" href="#features">See features</a>
+      </div>
 
-    <footer>
-        © 2025 Attendio. All rights reserved.
-    </footer>
+      <div style="margin-top:18px" class="small-note">Trusted by early users — lightweight, private by default, and fast.</div>
+    </div>
+
+    <aside class="card fade-up" style="animation-delay:0.12s">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="badge">Latest release</div>
+          <h3 style="margin:8px 0 0">v1.0.0</h3>
+          <div style="color:var(--muted);font-size:13px">Stable • Offline support • Small APK</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:12px;color:var(--muted)">Size</div>
+          <div style="font-weight:700">~ 6 MB</div>
+        </div>
+      </div>
+
+      <div class="stat">
+        <div>
+          <div style="font-size:13px;color:var(--muted)">Active installs</div>
+          <div style="font-weight:800;font-size:18px">1k+</div>
+        </div>
+        <div>
+          <div style="font-size:13px;color:var(--muted)">Avg rating</div>
+          <div style="font-weight:800;font-size:18px">4.5 ★</div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;display:flex;gap:8px">
+        <a class="cta" href="https://play.google.com/store/apps/details?id=com.brownfish.attendio" target="_blank">Install</a>
+        <a class="btn-ghost" href="#contact">Contact dev</a>
+      </div>
+    </aside>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="features fade-up" style="animation-delay:0.18s">
+    <div class="feature">
+      <h4>One-tap attendance</h4>
+      <p>Mark present, absent, overtime or half-day instantly. Minimal UI for fast daily use.</p>
+    </div>
+    <div class="feature">
+      <h4>Auto salary calculator</h4>
+      <p>Enter per-day salary and see monthly estimates generated automatically.</p>
+    </div>
+    <div class="feature">
+      <h4>Monthly reports</h4>
+      <p>Clear calendar view, exportable records and fast navigation between months.</p>
+    </div>
+    <div class="feature">
+      <h4>Offline-first</h4>
+      <p>Works without internet. Data stored locally — no mandatory sign-in.</p>
+    </div>
+  </section>
+
+  <!-- SCREENSHOT CAROUSEL -->
+  <section id="screenshots" class="carousel-wrap fade-up" style="animation-delay:0.24s">
+    <div style="max-width:1100px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div style="font-weight:700;font-size:18px">Screenshots</div>
+      <div style="color:var(--muted);font-size:14px">Swipe or click dots</div>
+    </div>
+
+    <div class="carousel" id="carousel">
+      <img id="s0" src="screenshot1.png" alt="s1" class="center">
+      <img id="s1" src="screenshot2.png" alt="s2">
+      <img id="s2" src="screenshot3.png" alt="s3">
+      <img id="s3" src="screenshot4.png" alt="s4">
+    </div>
+
+    <div class="carousel-controls" id="dots">
+      <div class="dot active" data-i="0"></div>
+      <div class="dot" data-i="1"></div>
+      <div class="dot" data-i="2"></div>
+      <div class="dot" data-i="3"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact fade-up" style="animation-delay:0.28s">
+    <div class="left">
+      <div class="avatar">AZ</div>
+      <div class="info">
+        <h3>Azad Ali — Developer</h3>
+        <p>Got questions, bug reports, or custom development work? Reach out directly.</p>
+        <div style="margin-top:8px;color:var(--muted);font-size:13px">Available for freelance / app development.</div>
+      </div>
+    </div>
+
+    <div class="links">
+      <a href="mailto:azadsaifi70149@gmail.com" title="Email">✉️ Email</a>
+      <a href="https://wa.me/919315149804" target="_blank" title="WhatsApp">💬 WhatsApp</a>
+      <a href="https://play.google.com/store/apps/details?id=com.brownfish.attendio" target="_blank" title="Play Store" style="background:linear-gradient(90deg,var(--accent-1),var(--accent-2));">⬇️ Install</a>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Attendio • Built by Azad Ali • <a href="mailto:azadsaifi70149@gmail.com">azadsaifi70149@gmail.com</a> • <a href="https://wa.me/919315149804" target="_blank">+91 93151 49804</a>
+  </footer>
+</main>
+
+<script>
+  // small carousel logic
+  (function(){
+    const imgs = Array.from(document.querySelectorAll('#carousel img'));
+    const dots = Array.from(document.querySelectorAll('.dot'));
+    let i = 0;
+    function show(idx){
+      imgs.forEach((el, k) => {
+        el.classList.remove('center');
+        el.style.opacity = (k===idx? '1' : '0.6');
+        el.style.transform = (k===idx? 'translateY(-6px) scale(1.06)' : 'translateY(0) scale(0.96)');
+      });
+      dots.forEach(d=>d.classList.remove('active'));
+      dots[idx].classList.add('active');
+      i = idx;
+    }
+    dots.forEach(d=>d.addEventListener('click', ()=>show(Number(d.dataset.i))));
+    // auto-rotate
+    let t = setInterval(()=> show((i+1) % imgs.length), 3500);
+    // pause on hover
+    const wrap = document.getElementById('carousel');
+    wrap.addEventListener('mouseenter', ()=> clearInterval(t));
+    wrap.addEventListener('mouseleave', ()=> t = setInterval(()=> show((i+1) % imgs.length), 3500));
+    // touch support for swipe
+    let startX = null;
+    wrap.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+    wrap.addEventListener('touchend', e => {
+      if (!startX) return;
+      let diff = startX - e.changedTouches[0].clientX;
+      if (diff > 40) show((i+1)%imgs.length);
+      else if (diff < -40) show((i-1+imgs.length)%imgs.length);
+      startX = null;
+    });
+    // initial
+    show(0);
+  })();
+</script>
 
 </body>
-
 </html>
