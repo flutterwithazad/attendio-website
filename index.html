@@ -2,110 +2,144 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attendio — Smart Attendance Tracker</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendio — Smart Attendance Tracker App</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- Sticky Header -->
-  <header class="topbar">
+<!-- HEADER -->
+<header class="topbar">
     <div class="brand">
-      <div class="logo">A</div>
-      <div>
-        <h3>Attendio</h3>
-        <span class="tagline">Attendance Tracker</span>
-      </div>
+        <div class="logo">A</div>
+        <div>
+            <h3>Attendio</h3>
+            <span class="tagline">Attendance Tracker</span>
+        </div>
     </div>
 
-    <nav>
-      <a href="#features">Features</a>
-      <a href="#screenshots">Screenshots</a>
-      <a href="#contact">Contact</a>
-      <a class="cta" href="https://play.google.com/store/apps/details?id=com.brownfish.attendio" target="_blank">Download</a>
+    <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="#contact">Contact</a>
+        <a class="cta" href="https://play.google.com/store/apps/details?id=com.brownfish.attendio" target="_blank">Download</a>
     </nav>
-  </header>
 
-  <!-- HERO SECTION -->
-  <section class="hero">
+    <!-- Mobile menu -->
+    <div class="hamburger" id="hamburger">☰</div>
+</header>
+
+<!-- Mobile menu drawer -->
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#features">Features</a>
+    <a href="#screenshots">Screenshots</a>
+    <a href="#contact">Contact</a>
+    <a class="cta" href="https://play.google.com/store/apps/details?id=com.brownfish.attendio" target="_blank">Download</a>
+</div>
+
+
+<!-- HERO -->
+<section class="hero">
     <div class="hero-left fade-up">
-      <h1>Track Your Attendance, Smarter & Faster</h1>
-      <p>Attendio helps you manage attendance with one-tap marking, clean monthly summaries, and an offline-first experience.</p>
+        <h1>Track Attendance. Understand Your Work.  
+            <span class="grad">Smarter. Faster. Cleaner.</span>
+        </h1>
 
-      <div class="actions">
-        <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.brownfish.attendio" target="_blank">
-          Get on Google Play
-        </a>
-        <a class="btn-ghost" href="#features">See Features</a>
-      </div>
-    </div>
-  </section>
+        <p>
+            Attendio helps you track daily attendance effortlessly with  
+            one-tap marking, offline support, salary estimation, and clean monthly insights.
+        </p>
 
-  <!-- FEATURES -->
-  <section id="features" class="features fade-up">
-    <div class="feature">
-      <h4>✔ One-Tap Attendance</h4>
-      <p>Mark present, absent, half-day or overtime instantly with a simple UI.</p>
+        <div class="actions">
+            <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.brownfish.attendio" target="_blank">
+                Download Now
+            </a>
+            <a class="btn-ghost" href="#features">Explore Features</a>
+        </div>
     </div>
 
-    <div class="feature">
-      <h4>✔ Smart Salary Estimates</h4>
-      <p>Enter per-day salary and get automatic monthly estimates.</p>
-    </div>
+    <div class="hero-glow"></div>
+</section>
 
-    <div class="feature">
-      <h4>✔ Monthly Calendar View</h4>
-      <p>A clean, organized calendar with highlights for each day.</p>
-    </div>
 
-    <div class="feature">
-      <h4>✔ Works Offline</h4>
-      <p>Save attendance even without internet — your data stays with you.</p>
-    </div>
-  </section>
+<!-- FEATURES -->
+<section id="features" class="features fade-up">
+    <h2 class="section-title">Powerful Features</h2>
 
-  <!-- SCREENSHOTS -->
-  <section id="screenshots" class="carousel-wrap fade-up">
-    <h2>Screenshots</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="icon">🗓️</div>
+            <h4>One-Tap Attendance</h4>
+            <p>Mark Present, Absent, Half-Day or Overtime instantly.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="icon">📈</div>
+            <h4>Smart Salary Calculator</h4>
+            <p>Automatic earnings estimate based on monthly records.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="icon">📊</div>
+            <h4>Clean Monthly View</h4>
+            <p>Visual calendar to understand your entire work month.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="icon">📴</div>
+            <h4>Offline Support</h4>
+            <p>No internet needed — your data stays private & local.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- SCREENSHOTS -->
+<section id="screenshots" class="screenshots fade-up">
+    <h2 class="section-title">App Screenshots</h2>
 
     <div class="carousel" id="carousel">
-      <img src="screenshot1.png" class="center">
-      <img src="screenshot2.png">
-      <img src="screenshot3.png">
-      <img src="screenshot4.png">
+        <img src="screenshot1.png" class="center">
+        <img src="screenshot2.png">
+        <img src="screenshot3.png">
+        <img src="screenshot4.png">
     </div>
 
-    <div class="carousel-controls" id="dots">
-      <div class="dot active" data-i="0"></div>
-      <div class="dot" data-i="1"></div>
-      <div class="dot" data-i="2"></div>
-      <div class="dot" data-i="3"></div>
+    <div class="dots" id="dots">
+        <div class="dot active" data-i="0"></div>
+        <div class="dot" data-i="1"></div>
+        <div class="dot" data-i="2"></div>
+        <div class="dot" data-i="3"></div>
     </div>
-  </section>
+</section>
 
-  <!-- CONTACT SECTION -->
-  <section id="contact" class="contact fade-up">
-    <div class="left">
-      <div class="avatar">AZ</div>
 
-      <div class="info">
-        <h3>Azad Ali — Developer</h3>
-        <p>For development queries, freelance work, or support — contact anytime.</p>
-      </div>
+<!-- CONTACT -->
+<section id="contact" class="contact fade-up">
+    <h2 class="section-title">Contact Developer</h2>
+
+    <div class="contact-box">
+        <div class="avatar">AZ</div>
+
+        <div class="contact-info">
+            <h3>Azad Ali</h3>
+            <p>Developer of Attendio • Available for freelance projects.</p>
+        </div>
+
+        <div class="contact-links">
+            <a href="mailto:azadsaifi70149@gmail.com">📩 Email</a>
+            <a href="https://wa.me/919315149804" target="_blank">💬 WhatsApp</a>
+        </div>
     </div>
+</section>
 
-    <div class="links">
-      <a href="mailto:azadsaifi70149@gmail.com">Email</a>
-      <a href="https://wa.me/919315149804" target="_blank">WhatsApp</a>
-    </div>
-  </section>
 
-  <footer>
-    © 2025 Attendio · Built by Azad Ali  
-  </footer>
+<footer>
+    © 2025 Attendio — Developed by Azad Ali  
+</footer>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
