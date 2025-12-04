@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.brownfish.attendio",
+      "sha256_cert_fingerprints": [
+        "B3:07:50:74:8C:01:7D:1E:8A:F7:62:7B:1A:35:27:B1:EE:1C:07:EB:49:18:77:62:91:36:3F:B5:C0:9B:8F:AA"
+      ]
+    }
+  }
+]
