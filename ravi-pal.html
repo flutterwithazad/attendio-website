@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendio — Admin Console | Push Notifications</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Modular Stylesheet Bundle -->
+  <link rel="stylesheet" href="ravi-pal/css/main.css">
+</head>
+<body>
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <div class="admin-layout">
+    <!-- ==========================================
+         SIDEBAR NAVIGATION
+         ========================================== -->
+    <aside class="admin-sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="logo">A</div>
+          <div class="brand-text">
+            <span class="brand-name">Attendio</span>
+            <span class="brand-badge">ADMIN</span>
+          </div>
+        </div>
+        <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Close menu">✕</button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">MANAGEMENT</div>
+        
+        <a href="#notifications" class="nav-item active">
+          <span class="nav-icon">🔔</span>
+          <span class="nav-label">Push Notifications</span>
+          <span class="nav-counter" id="totalNotificationsBadge">4</span>
+        </a>
+
+        <a href="#users" class="nav-item disabled" title="Coming soon">
+          <span class="nav-icon">👥</span>
+          <span class="nav-label">Users & Devices</span>
+          <span class="coming-soon-badge">Soon</span>
+        </a>
+
+        <a href="#analytics" class="nav-item disabled" title="Coming soon">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Analytics</span>
+          <span class="coming-soon-badge">Soon</span>
+        </a>
+
+        <div class="nav-section-title">SYSTEM</div>
+
+        <a href="#templates" class="nav-item disabled" title="Coming soon">
+          <span class="nav-icon">📋</span>
+          <span class="nav-label">Templates</span>
+          <span class="coming-soon-badge">Soon</span>
+        </a>
+
+        <a href="#settings" class="nav-item disabled" title="Coming soon">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-label">FCM Gateway</span>
+          <span class="coming-soon-badge">Soon</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-profile">
+          <div class="admin-avatar">AZ</div>
+          <div class="admin-info">
+            <div class="admin-name">Azad Ali</div>
+            <div class="admin-role">Super Admin</div>
+          </div>
+        </div>
+        <a href="index.html" class="back-website-btn" title="View Public Website">
+          <span>🌐</span> Public Site
+        </a>
+      </div>
+    </aside>
+
+    <!-- Overlay for mobile drawer -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ==========================================
+         MAIN ADMIN CONTENT
+         ========================================== -->
+    <main class="admin-main">
+      <!-- Top Header -->
+      <header class="admin-header">
+        <div class="header-left">
+          <button class="menu-toggle" id="menuToggle" aria-label="Open sidebar">☰</button>
+          <div>
+            <h1 class="page-title">Push Notifications</h1>
+            <p class="page-subtitle">Compose and broadcast instant push notifications to Attendio users</p>
+          </div>
+        </div>
+        
+        <div class="header-right">
+          <div class="status-indicator">
+            <span class="pulse-dot"></span>
+            <span class="status-text">Supabase Broadcast: <strong>Ready</strong></span>
+          </div>
+          <button class="btn-secondary" id="clearAllHistoryBtn" title="Reset history to default samples">
+            <span>🗑️</span> Reset History
+          </button>
+        </div>
+      </header>
+
+      <div class="admin-content-grid">
+        <!-- LEFT COLUMN: NOTIFICATION COMPOSER -->
+        <section class="card form-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="card-icon">🚀</span>
+              <div>
+                <h2>Compose Notification</h2>
+                <p>Send an immediate push alert to active devices</p>
+              </div>
+            </div>
+            <button type="button" class="btn-text" id="loadSampleBtn">⚡ Load Sample</button>
+          </div>
+
+          <form id="notificationForm" class="notification-form" novalidate>
+            <!-- Title Input -->
+            <div class="form-group">
+              <div class="label-row">
+                <label for="notifTitle">Notification Title <span class="required">*</span></label>
+                <span class="char-count" id="titleCharCount">0 / 65</span>
+              </div>
+              <div class="input-wrapper">
+                <input 
+                  type="text" 
+                  id="notifTitle" 
+                  name="title" 
+                  placeholder="e.g. ⏰ Don't forget to mark your attendance!" 
+                  maxlength="65"
+                  required
+                  autocomplete="off"
+                >
+              </div>
+              <span class="field-error" id="titleError"></span>
+            </div>
+
+            <!-- Message Input -->
+            <div class="form-group">
+              <div class="label-row">
+                <label for="notifMessage">Notification Message <span class="required">*</span></label>
+                <span class="char-count" id="messageCharCount">0 / 240</span>
+              </div>
+              <div class="input-wrapper">
+                <textarea 
+                  id="notifMessage" 
+                  name="message" 
+                  rows="4" 
+                  placeholder="e.g. Tap here to record your attendance for today and keep your monthly salary stats updated." 
+                  maxlength="240"
+                  required
+                ></textarea>
+              </div>
+              <span class="field-error" id="messageError"></span>
+            </div>
+
+            <!-- Audience & Priority Options -->
+            <div class="options-grid">
+              <div class="form-group">
+                <label for="targetAudience">Target Audience</label>
+                <select id="targetAudience" name="audience" class="custom-select">
+                  <option value="all">📢 All Users (Global Broadcast)</option>
+                  <option value="active">🔥 Active Users (Last 7 Days)</option>
+                  <option value="android">🤖 Android Devices Only</option>
+                  <option value="test">🧪 Test Segment (Admins Only)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="notifPriority">Priority Level</label>
+                <select id="notifPriority" name="priority" class="custom-select">
+                  <option value="high">⚡ High (Immediate Wake)</option>
+                  <option value="normal">⏱️ Normal (Standard Delivery)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Collapsible Advanced Settings -->
+            <div class="advanced-toggle-wrapper">
+              <button type="button" class="advanced-toggle" id="advancedToggle">
+                <span class="toggle-arrow" id="toggleArrow">▶</span>
+                <span>Advanced Options (Banner Image & Deep Link)</span>
+              </button>
+            </div>
+
+            <div class="advanced-fields" id="advancedFields" style="display: none;">
+              <div class="form-group">
+                <label for="imageUrl">Image Banner URL (Optional)</label>
+                <input 
+                  type="url" 
+                  id="imageUrl" 
+                  placeholder="https://example.com/banner.png"
+                  autocomplete="off"
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="deepLink">Action Deep Link (Optional)</label>
+                <input 
+                  type="text" 
+                  id="deepLink" 
+                  placeholder="attendio://screen/monthly_summary"
+                  autocomplete="off"
+                >
+              </div>
+            </div>
+
+            <!-- Broadcast Security Secret (In-Memory Entry) -->
+            <div class="form-group">
+              <div class="label-row">
+                <label for="broadcastSecret">Broadcast Secret Key (<code>x-broadcast-secret</code>) <span class="required">*</span></label>
+              </div>
+              <div class="input-wrapper" style="display: flex; gap: 8px;">
+                <input 
+                  type="password" 
+                  id="broadcastSecret" 
+                  name="secret" 
+                  placeholder="Enter your x-broadcast-secret key..." 
+                  required
+                  autocomplete="off"
+                >
+                <button type="button" class="btn-secondary" id="toggleSecretBtn" title="Show/Hide Secret Key" style="min-width: 44px; justify-content: center;">
+                  👁️
+                </button>
+              </div>
+              <span class="field-error" id="secretError"></span>
+              <span style="font-size:11px;color:var(--text-muted);">🔒 Security note: Never saved to disk or localStorage. Kept strictly in memory for this broadcast.</span>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <button type="button" class="btn-ghost" id="resetFormBtn">
+                Clear Form
+              </button>
+              <button type="submit" class="btn-primary-send" id="sendBtn">
+                <span class="btn-icon">🚀</span>
+                <span class="btn-text-content">Send Push Notification</span>
+                <div class="spinner" id="sendSpinner"></div>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- RIGHT COLUMN: REAL-TIME MOBILE PREVIEW -->
+        <section class="card preview-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="card-icon">📱</span>
+              <div>
+                <h2>Live Device Preview</h2>
+                <p>Real-time mock of the notification shade</p>
+              </div>
+            </div>
+            <span class="device-tag">Android 14</span>
+          </div>
+
+          <div class="phone-mockup">
+            <div class="phone-topbar">
+              <span class="phone-time" id="phoneTime">19:30</span>
+              <div class="phone-status-icons">
+                <span>📶</span>
+                <span>🔋</span>
+              </div>
+            </div>
+
+            <div class="phone-notification-shade">
+              <div class="phone-notif-card" id="phoneNotifCard">
+                <div class="notif-card-header">
+                  <div class="notif-app-info">
+                    <div class="notif-mini-logo">A</div>
+                    <span class="notif-app-name">Attendio</span>
+                    <span class="notif-dot">•</span>
+                    <span class="notif-time-ago">just now</span>
+                  </div>
+                  <span class="notif-expand-icon">⌄</span>
+                </div>
+
+                <div class="notif-card-body">
+                  <div class="notif-text-content">
+                    <h4 class="notif-preview-title" id="previewTitle">⏰ Don't forget to mark your attendance!</h4>
+                    <p class="notif-preview-body" id="previewBody">Tap here to record your attendance for today and keep your monthly salary stats updated.</p>
+                  </div>
+                  <div class="notif-preview-image" id="previewImageWrapper" style="display:none;">
+                    <img id="previewImage" src="" alt="Notification banner">
+                  </div>
+                </div>
+
+                <div class="notif-card-footer">
+                  <span class="notif-action-pill">Open App</span>
+                  <span class="notif-action-pill dismiss">Dismiss</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="phone-nav-pill"></div>
+          </div>
+
+          <div class="preview-metrics">
+            <div class="metric-item">
+              <span class="metric-label">Estimated Audience Reach</span>
+              <span class="metric-val" id="metricReach">~4,850 users (100%)</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-label">Push Delivery Channel</span>
+              <span class="metric-val">Firebase Cloud Messaging</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- BOTTOM SECTION: SENT NOTIFICATIONS LOG -->
+      <section class="card history-card" id="historySection">
+        <div class="history-header">
+          <div>
+            <div class="card-title-group">
+              <span class="card-icon">📜</span>
+              <div>
+                <h2>Sent Notifications Log</h2>
+                <p>Browse previously dispatched push notifications and delivery statistics</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="history-controls">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="historySearch" placeholder="Search by title or message...">
+            </div>
+
+            <div class="filter-group">
+              <button class="filter-btn active" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="broadcast">Broadcast</button>
+              <button class="filter-btn" data-filter="segmented">Segmented</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- History Feed -->
+        <div class="history-list" id="historyList"></div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+          <div class="empty-icon">📭</div>
+          <h3>No notifications found</h3>
+          <p>You haven't sent any push notifications yet or no records match your search filter.</p>
+          <button class="btn-secondary" id="emptyCreateBtn">Compose First Notification</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MVC Application Entrypoint -->
+  <script type="module" src="ravi-pal/js/app.js"></script>
+</body>
+</html>

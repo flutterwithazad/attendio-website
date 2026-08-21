@@ -1,0 +1,11 @@
+/* =========================================================
+   ATTENDIO ADMIN PANEL - MAIN STYLESHEET ENTRY POINT
+   ========================================================= */
+
+@import './variables.css';
+@import './base.css';
+@import './components/sidebar.css';
+@import './components/forms.css';
+@import './components/preview.css';
+@import './components/history.css';
+@import './components/toast.css';
