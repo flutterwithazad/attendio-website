@@ -12,6 +12,18 @@
   
   <!-- Modular Stylesheet Bundle -->
   <link rel="stylesheet" href="css/main.css">
+  <script>
+    (function() {
+      var path = window.location.pathname;
+      if (path.endsWith('/index.html')) {
+        var cleanPath = path.replace(/\/index\.html$/, '/') || '/';
+        window.history.replaceState(null, '', cleanPath + window.location.search + window.location.hash);
+      } else if (path.endsWith('.html')) {
+        var cleanPath = path.replace(/\.html$/, '');
+        window.history.replaceState(null, '', cleanPath + window.location.search + window.location.hash);
+      }
+    })();
+  </script>
 </head>
 <body>
   <!-- Toast Notification Container -->
@@ -77,7 +89,7 @@
             <div class="admin-role">Super Admin</div>
           </div>
         </div>
-        <a href="../index.html" class="back-website-btn" title="View Public Website">
+        <a href="/" class="back-website-btn" title="View Public Website">
           <span>🌐</span> Public Site
         </a>
       </div>

@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendio — Smart Attendance Tracker App</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        (function() {
+            var path = window.location.pathname;
+            if (path.endsWith('/index.html')) {
+                var cleanPath = path.replace(/\/index\.html$/, '/') || '/';
+                window.history.replaceState(null, '', cleanPath + window.location.search + window.location.hash);
+            } else if (path.endsWith('.html')) {
+                var cleanPath = path.replace(/\.html$/, '');
+                window.history.replaceState(null, '', cleanPath + window.location.search + window.location.hash);
+            }
+        })();
+    </script>
 </head>
 
 <body>
@@ -139,9 +151,9 @@
 <footer>
     © 2025 Attendio — Developed by Azad Ali
     <div class="footer-links">
-        <a href="privacy.html">Privacy Policy</a>
+        <a href="/privacy">Privacy Policy</a>
         <span>•</span>
-        <a href="terms.html">Terms & Conditions</a>
+        <a href="/terms">Terms & Conditions</a>
     </div>
 </footer>
 
